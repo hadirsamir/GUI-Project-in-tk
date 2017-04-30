@@ -3,6 +3,10 @@ import tkinter
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox
+import webbrowser # to open the browser and pdf files
+import scp    #to send file.txt
+from random import randint   #for Drawing class
+
 
 if sys.version_info[0] < 3:
     import Tkinter as tkinter
@@ -18,124 +22,514 @@ from gi.repository import GstVideo
 
 
 file_name = None
+gif_dir="/home/hadir/PycharmProjects/TextEditor/gifs/"
 
-
-
+#host=None
+#user=None
+#password=None
 
 class Mainwindow():
     def __init__(self,master):
         self.master=master
 
-        self.master.wm_title("instructor's window")
+        self.master.wm_title("My Widgets")
         frame = Frame(self.master)
         frame.pack()
-        f1 = Frame(self.master, width=200, height=100)
+        f1 = Frame(self.master, width=190, height=600)
+        master.maxsize(width=190,height=600)
         topframe = Frame(self.master)
         topframe.pack()
         bottomframe = Frame(self.master)
         bottomframe.pack(side=BOTTOM)
+
+
 
         button1 = Button(topframe, text="MY board", fg="black")
+
+        self.igm0 = PhotoImage(file=gif_dir + "pencil.gif")
+        button1.config(image=self.igm0,compound=RIGHT)
+        self.tigm0=self.igm0.subsample(17,17)
+        button1.config(image=self.tigm0)
+
         button2 = Button(topframe, text="My videos list", fg="black")
-        button3 = Button(topframe, text="send exams", fg="black")
+        self.igm1 = PhotoImage(file=gif_dir + "images.gif")
+        button2.config(image=self.igm1, compound=RIGHT)
+        self.tigm1 = self.igm1.subsample(5, 5)
+        button2.config(image=self.tigm1)
 
 
-        button1.pack(fill=X)
-        button2.pack(fill=X)
-        button3.pack(fill=X)
+        button3 = Button(topframe, text="Search Videos", fg="black")
+        self.igm2 = PhotoImage(file=gif_dir +"pogi.gif")
+        button3.config(image=self.igm2, compound=RIGHT)
+        self.tigm2 = self.igm2.subsample(5, 5)
+        button3.config(image=self.tigm2)
 
-        button1.bind("<Button-1>", self.geteditor)
-        button2.bind("<Button-1>",self.getvideo)
-    def geteditor(self,event):
-        root2=Toplevel(self.master)
-        mygui=TextEditor(root2)
+        button4 = Button(topframe, text="My Browser" ,fg="black")
+        self.igm4 = PhotoImage(file=gif_dir + "index.gif")
+        button4.config(image=self.igm4, compound=RIGHT)
+        self.tigm4 = self.igm4.subsample(6, 6)
+        button4.config(image=self.tigm4)
 
+        button5 = Button(topframe, text="MY Refrences" , fg="black")
+        self.igm3 = PhotoImage(file=gif_dir + "mine.gif")
+        button5.config(image=self.igm3, compound=RIGHT)
+        self.tigm3 = self.igm3.subsample(5, 5)
+        button5.config(image=self.tigm3)
 
-    def getvideo(self,event):
-        root3=Toplevel(self.master)
-        myvideo=VideoList(root3)
+        button6 =Button(topframe, text="Send Files" , fg="black")
+        self.igm9 = PhotoImage(file=gif_dir + "send.gif")
+        button6.config(image=self.igm9, compound=RIGHT)
+        self.tigm9 = self.igm9.subsample(5, 5)
+        button6.config(image=self.tigm9)
 
+        button7 =Button(topframe, text="MY FrameWork", fg="black")
+        self.igm8 = PhotoImage(file=gif_dir + "brush.gif")
+        button7.config(image=self.igm8, compound=RIGHT)
+        self.tigm8 = self.igm8.subsample(5, 5)
+        button7.config(image=self.tigm8)
 
-    #def finish(self):
-       # self.master.destroy()
+        button8 = Button(topframe, text="Grades", fg="black")
+        self.igm11= PhotoImage(file=gif_dir + "grades.gif")
+        button8.config(image=self.igm11, compound=RIGHT)
+        self.tigm11= self.igm11.subsample(5,5)
+        button8.config(image=self.tigm11)
 
-    #def openNotepad(self, event):
-         #newEditor = TextEditor()
-class Display:
-    def __init__(self,master):
-        def set_frame_handle(bus,message,frame_id):
-            if not message.get_structure() is None:
-                if message.get_structure().get_name() == 'prepare-window-handle':
-                   display_frame = message.src
-                   display_frame.set_property('force-aspect-ratio', True)
-                   display_frame.set_window_handle(frame_id)
-
-        NUMBER_OF_FRAMES = 1  # with more frames than arguments, videos are repeated
-        relative_height = 1 / float(NUMBER_OF_FRAMES)
-
-        # Only argument number checked, not validity.
-        number_of_file_names_given = 1
-        if number_of_file_names_given < 1:
-            print('Give at least one video file name.')
-            sys.exit()
-        if number_of_file_names_given < NUMBER_OF_FRAMES:
-            print('Up to', NUMBER_OF_FRAMES, 'video file names can be given.')
-        file_names = list()
-        for index in range(number_of_file_names_given):
-            file_names.append("TestVideo.mp4")
-
-
-        master.title("My Video Player")
-        master.geometry('480x480')
-
-        Gst.init(None)
-        GObject.threads_init()
-
-
-        print(range(NUMBER_OF_FRAMES))
-        self.number = 0
-        display_frame = Frame(master, bg='')
-        relative_y = self.number * relative_height
-        display_frame.place(relx=0, rely=relative_y,
-                            anchor=tkinter.NW, relwidth=1, relheight=relative_height)
-        frame_id = display_frame.winfo_id()
-        player = Gst.ElementFactory.make('playbin', None)
-        fullname = os.path.abspath(file_names[self.number % len(file_names)])
-        player.set_property('uri', 'file://%s' % fullname)
-
-        player.set_state(Gst.State.PLAYING)
-
-        bus = player.get_bus()
-        bus.enable_sync_message_emission()
-        bus.connect('sync-message::element', set_frame_handle, frame_id)
-
-
-class VideoList:
-    def __init__(self,master):
-        self.master=master
-        self.master.wm_title("instructor's window")
-        frame = Frame(self.master)
-        frame.pack()
-        f1 = Frame(self.master, width=200, height=100)
-        topframe = Frame(self.master)
-        topframe.pack()
-        bottomframe = Frame(self.master)
-        bottomframe.pack(side=BOTTOM)
-
-        button1 = Button(topframe, text="video1", fg="black")
-        button2 = Button(topframe, text="video2", fg="black")
-        button3 = Button(topframe, text="video3", fg="black")
-        button4 = Button(topframe, text="video4",fg="black")
 
         button1.pack(fill=X)
         button2.pack(fill=X)
         button3.pack(fill=X)
         button4.pack(fill=X)
-        button1.bind("<Button-1>", self.playvideo)
+        button5.pack(fill=X)
+        button6.pack(fill=X)
+        button7.pack(fill=X)
+        button8.pack(fill=X)
 
-    def playvideo(self, event):
-        root4 = Toplevel(self.master)
-        myplay = Display(root4)
+        button1.bind("<Button-1>", self.geteditor)
+        button2.bind("<Button-1>",self.getVideo)
+        button3.bind("<Button-1>",self.SearchOne)
+        button4.bind("<Button-1>",self.browse)
+        button5.bind("<Button-1>", self.openpdf)
+        button6.bind("<Button-1>",self.sendfile)
+        button7.bind("<Button-1>",self.getframework)
+        button8.bind("<Button-1>",self.getgrade)
+
+    def sendfile(self,event):
+        os.system("echo")           #takes terminal command
+
+ #def sendfile(self,event):    #function to send files to remote machines
+       #client = scp.Client(host=host, user=user, password=password)
+       #client.transfer('/etc/local/filename', '/etc/remote/filename')
+
+
+
+    def browse(self,event):
+        webbrowser.open_new("https://www.google.com.eg/search")  # a link(Google search URL)
+
+    #Top level functios
+
+    def geteditor(self,event):
+        root2=Toplevel(self.master)
+        mygui=TextEditor(root2)
+
+    def getVideo(self,event):
+        root12 = Toplevel(self.master)
+        myVideo = Display(root12)
+
+    def getgrade(self,event):
+        root3=Toplevel(self.master)
+        mygrade=Grades(root3)
+
+    def getframework(self,event):
+        root4=Toplevel(self.master)
+        mywork=Drawing(root4)
+
+    def openpdf(self, event):
+        root5=Toplevel(self.master)
+        mypdf=pdflist(root5)
+
+    # making an object of openseach class to avoid the closing bug
+
+    def SearchOne(self,event):
+        mylist=openVideosearch(self.master)
+
+
+class pdflist:
+    def __init__(self,master):
+        self.subjectsNames = {"Maths": 1, "Science" : 2, "Arabic" :3}; #array fo subject names need a query
+        self.pdfPathsList = {"Intoduction to alogrithm":"/home/hadir/Downloads/network-security.pdf",
+                             "Programming C++" : "/home/hadir/Downloads/network-security.pdf"}; #dictionary for pdf paths and names of its subject
+        #TODO: fill SubjectNames from data
+
+        self.master = master
+        self.master.wm_title("Choose Subject")
+        self.master.maxsize(420,960)
+        self.topframe = Frame(self.master)
+
+        self.topframe.pack()
+        bottomframe = Frame(self.master)
+        bottomframe.pack(side=BOTTOM)
+
+        #Home Buttons
+        self.drawListButtons(self.topframe, self.subjectsNames, self.openPdfWindow);
+       # self.drawSubjectListButtons(topframe);
+
+    def openPdfFile(self, event, name):
+        webbrowser.open_new(self.pdfPathsList[name]) # open pdf file
+
+    def openPdfWindow(self, event, name):
+        subjectId = self.subjectsNames[name]
+        #query to populate  self.pdfPathsList
+        #Create a new window
+        newFrame = Toplevel(self.topframe)
+        newFrame.title("Choose Reference")
+        bottomframe = Frame(newFrame)
+        bottomframe.pack(side=BOTTOM)
+        #ToDo Add TopFrame
+        self.drawListButtons(newFrame,self.pdfPathsList,self.openPdfFile);
+
+
+        return
+
+    def fetchubjectNamesFromDB(self):
+        return
+
+    def drawListButtons(self,topframe, dictionary,function):
+        i = 0
+        for name in dictionary:
+            button1 = Button(topframe, text= name, fg="black")
+            button1.pack(fill=X)
+            button1.bind("<Button-1>", lambda event, arg= name: function(event, arg))
+            i = i + 1
+
+
+class openVideosearch:
+    def __init__(self,master):
+        input_file_name = tkinter.filedialog.askopenfilename(defaultextension=".mp4",
+                                                             filetypes=[("video", "*.mp4")])
+        if input_file_name:
+            videoPath = input_file_name
+            videoPlayerObject = VideoPlayer(videoPath)
+
+
+class Drawing(Frame):
+    def __init__(self, master):
+        super().__init__(master)
+        self.master=master
+        master.title("My FrameWork")
+        self.radiobuttonValue = IntVar()
+        self.radiobuttonValue.set(1)
+        self.toolsThickness = 2
+        self.rgb = "#%02x%02x%02x" % (255, 255, 255)
+
+        self.pack()
+        self.createWidgets()
+
+        master.bind('a', self.thicknessPlus)
+        master.bind('s', self.thicknessMinus)
+
+    def createWidgets(self):
+        tk_rgb = "#%02x%02x%02x" % (128, 192, 200) # choose font colour
+
+        self.leftFrame = Frame(self, bg=tk_rgb)
+        self.leftFrame.pack(side=LEFT, fill=Y)
+
+        self.label = Label(self.leftFrame, text="choose a RGB color: ")
+        self.label.grid(row=0, column=0, sticky=NW, pady=2, padx=3)
+        # -----------------------------------------------
+        self.entryFrame = Frame(self.leftFrame)
+        self.entryFrame.grid(row=1, column=0,
+                             sticky=NW, pady=2, padx=3)
+
+        self.myEntry1 = Entry(self.entryFrame, width=5, insertwidth=3)
+        self.myEntry1.pack(side=LEFT, pady=2, padx=4)
+
+        self.myEntry2 = Entry(self.entryFrame, width=5)
+        self.myEntry2.pack(side=LEFT, pady=2, padx=4)
+
+        self.myEntry3 = Entry(self.entryFrame, width=5)
+        self.myEntry3.pack(side=LEFT, pady=2, padx=4)
+        # ----------------------------------------------
+        self.bttn1 = Button(self.leftFrame,
+                            text="accept", command=self.setColor)
+        self.bttn1.grid(row=2, column=0, pady=2, padx=3, sticky=NW)
+
+        self.labelThickness = Label(
+            self.leftFrame,
+            text="drawing tools' thickness:")
+        self.labelThickness.grid(row=3,
+                                 column=0, pady=2, padx=3)
+
+        self.myScale = Scale(
+            self.leftFrame, from_=1, to=25,
+            orient=HORIZONTAL,
+            command=self.setThickness)
+
+        self.myScale.set(2)
+        self.toolsThickness = 2
+        self.myScale.grid(
+            row=4, column=0,
+            pady=2, padx=3, sticky=S)
+
+        self.labelTools = Label(
+            self.leftFrame,
+            text="chose a drawing tool:",
+        )
+        self.labelTools.grid(
+            row=5, column=0,
+            pady=2, padx=3,
+            sticky=NW)
+
+
+        Radiobutton(self.leftFrame,
+                    text="line",
+                    variable=self.radiobuttonValue,
+                    value=1).grid(padx=3, pady=2,
+                                  row=6, column=0,
+                                  sticky=NW)
+
+        Radiobutton(self.leftFrame,
+                    text="line2",
+                    variable=self.radiobuttonValue,
+                    value=2).grid(padx=3, pady=2,
+                                  row=7, column=0,
+                                  sticky=NW)
+
+
+        Radiobutton(self.leftFrame,
+                    text="flowers tool",
+                    variable=self.radiobuttonValue,
+                    value=3).grid(padx=3, pady=2,
+                                  row=8, column=0,
+                                  sticky=NW)
+
+        Radiobutton(self.leftFrame,
+                    text="spray",
+                    variable=self.radiobuttonValue,
+                    value=4).grid(padx=3, pady=2,
+                                  row=9, column=0,
+                                  sticky=NW)
+
+        Radiobutton(self.leftFrame,
+                    text="cosmos",
+                    variable=self.radiobuttonValue,
+                    value=5).grid(padx=3, pady=2,
+                                  row=10, column=0,
+                                  sticky=NW)
+
+
+        self.buttonDeleteAll = Button(self.leftFrame, text="clear paper",
+                                      command=self.delteAll)
+        self.buttonDeleteAll.grid(padx=3, pady=2,
+                                  row=11, column=0,
+                                  sticky=NW)
+        # ----------------------------------------------------------------------
+        self.myCanvas = Canvas(self, width=800,
+                               height=500, relief=RAISED, borderwidth=5)
+        self.myCanvas.pack(side=RIGHT)
+        self.myCanvas.bind("<B1-Motion>", self.draw)
+        self.myCanvas.bind("<Button-1>", self.setPreviousXY)
+
+    def setThickness(self, event):
+        print(self.myScale.get())
+        self.toolsThickness = self.myScale.get()
+
+    def setColor(self):
+        try:
+            val1 = int(self.myEntry1.get())
+            val2 = int(self.myEntry2.get())
+            val3 = int(self.myEntry3.get())
+            if 0 <= (val1 and val2 and val3) <= 255:
+                self.rgb = "#%02x%02x%02x" % (val1, val2, val3)
+            self.myEntry1.delete(0, END)
+            self.myEntry2.delete(0, END)
+            self.myEntry3.delete(0, END)
+
+        except ValueError:
+            print("That's not an int!")
+        # set focus to something else, not to mess with pressing keys: a,s
+        self.focus()
+
+    def setPreviousXY(self, event):
+        print("now")
+        self.previousX = event.x
+        self.previousY = event.y
+
+    def draw(self, event):
+        # line 1
+        if self.radiobuttonValue.get() == 1:
+            self.myCanvas.create_oval(event.x - self.toolsThickness,
+                                      event.y - self.toolsThickness,
+                                      event.x + self.toolsThickness,
+                                      event.y + self.toolsThickness,
+                                      fill=self.rgb
+                                      )
+        # line 2
+        elif self.radiobuttonValue.get() == 2:
+            self.myCanvas.create_line(self.previousX, self.previousY,
+                                      event.x, event.y,
+                                      width=self.toolsThickness,
+                                      fill=self.rgb)
+            self.previousX = event.x
+            self.previousY = event.y
+            # flowers tool
+        elif self.radiobuttonValue.get() == 3:
+            tk_rgb = "#%02x%02x%02x" % (randint(140, 255), randint(140, 225), 40)
+            self.myCanvas.create_line(self.previousX, self.previousY,
+                                      event.x, event.y,
+                                      width=self.toolsThickness,
+                                      fill=tk_rgb)
+        # spray tool
+        elif self.radiobuttonValue.get() == 4:
+            if self.toolsThickness < 5:
+                multiplier = 6
+            else:
+                multiplier = 2
+            xrand = randint(-self.toolsThickness * multiplier,
+                            +self.toolsThickness * multiplier)
+            yrand = randint(-self.toolsThickness * multiplier,
+                            +self.toolsThickness * multiplier)
+
+            self.myCanvas.create_oval(event.x + xrand, event.y + yrand,
+                                      event.x + xrand + self.toolsThickness, event.y + yrand + self.toolsThickness,
+                                      fill=self.rgb,
+                                      width=0
+                                      )
+            # cosmos tool
+        elif self.radiobuttonValue.get() == 5:
+            if self.toolsThickness < 5:
+                multiplier = 6
+            else:
+                multiplier = 2
+            xrand = randint(-self.toolsThickness * multiplier,
+                            +self.toolsThickness * multiplier)
+            yrand = randint(-self.toolsThickness * multiplier,
+                            +self.toolsThickness * multiplier)
+            tk_rgb = "#%02x%02x%02x" % (randint(5, 255), randint(10, 150), randint(13, 255))
+            self.myCanvas.create_oval(event.x + xrand, event.y + yrand,
+                                      event.x + self.toolsThickness, event.y + self.toolsThickness,
+                                      fill=tk_rgb
+                                      )
+
+    def delteAll(self):
+        self.myCanvas.delete("all")
+
+    def thicknessPlus(self, event):
+        if self.toolsThickness < 25:
+            self.toolsThickness += 1
+            self.myScale.set(self.toolsThickness)
+
+    def thicknessMinus(self, event):
+        if 1 < self.toolsThickness:
+            self.toolsThickness -= 1
+            self.myScale.set(self.toolsThickness)
+
+
+class VideoPlayer:
+    def __init__(self, videoPath):
+        relative_height = 1
+
+        Gst.init(None)
+        GObject.threads_init()
+
+        display_frame = Frame(bg='')
+        relative_y = 0 * relative_height
+        display_frame.place(relx=0, rely=relative_y,
+                            anchor=tkinter.NW, relwidth=1, relheight=relative_height)
+        frame_id = display_frame.winfo_id()
+        player = Gst.ElementFactory.make('playbin', None)
+        fullname = os.path.abspath(videoPath)
+        player.set_property('uri', 'file://%s' % fullname)
+
+        player.set_state(Gst.State.PLAYING)  # function that plays a video
+
+        bus = player.get_bus()
+        bus.enable_sync_message_emission()
+        bus.connect('sync-message::element', self.set_frame_handle, frame_id)
+
+    def set_frame_handle(bus, message, frame_id):
+        if not message.get_structure() is None:
+            if message.get_structure().get_name() == 'prepare-window-handle':
+                display_frame = message.src
+                display_frame.set_property('force-aspect-ratio', True)
+                display_frame.set_window_handle(frame_id)
+
+
+class Display:
+    def __init__(self,master):
+        self.sub_Name={"Math":1,"science":2}
+        self.subjectVideolist={"woirw": "TestVideo.mp4"}
+        #ToDo: (1) Fill Subject List from the data base in a dictionary where key is the subject name and
+        # the value is the subject id in the database
+        #ToDo: (2) when the user presses a button the program should open a new window contains buttons
+        # Representing the selected subject videos from the database saved in a dictionary where the key of
+        # the dictionary is the video name and the value is the video path
+        #ToDo: (3) when a user selects a video from the window the video display window shall be opened playing the Video
+        #In other words you need 2 different callback functions for the Subject select button and the video select Button
+        # and for the first function you should pass the subject id to the first callbackfunction and this function do the following
+        # It should do what is mentioned in ToDo 2
+        #The Second Function should do the following
+        self.master = master
+        self.master.wm_title("Choose Subject")
+        self.master.maxsize(420, 960)
+        self.topframe = Frame(self.master)
+
+        self.topframe.pack()
+        bottomframe = Frame(self.master)
+        bottomframe.pack(side=BOTTOM)
+
+        # Home Buttons
+        self.drawButtons(self.topframe, self.sub_Name,self.openvideoWindow)
+
+    def openvideoWindow(self, event, name):
+        subjectId = self.sub_Name[name]
+            # query to populate  self.subjectVideolist
+            # Create a new window
+        newFrame = Toplevel(self.topframe)
+        newFrame.title(name)
+        bottomframe = Frame( newFrame)
+        bottomframe.pack(side=BOTTOM)
+            # ToDo Add TopFrame
+        self.drawButtons( newFrame, self.subjectVideolist, self.displayVideo)
+
+    def fetchubjectNamesFromDB(self):
+        return
+
+    def drawButtons(self, topframe, dictionary, function):
+        i = 0
+        for name in dictionary:
+            button1 = Button(topframe, text=name, fg="black")
+            button1.pack(fill=X)
+            button1.bind("<Button-1>", lambda event, arg=name: function(event, arg))
+            i = i + 1
+
+    def displayVideo(self, event, name):
+        videoPath = self.subjectVideolist[name]
+        videoPlayerObject = VideoPlayer(videoPath)
+
+class Grades:
+    def __init__(self,master):
+        self.master=master
+        self.master.wm_title("")
+        frame = Frame(self.master)
+        frame.pack()
+        f1 = Frame(self.master, width=200, height=100)
+        topframe = Frame(self.master)
+        topframe.pack()
+        bottomframe = Frame(self.master)
+        bottomframe.pack(side=BOTTOM)
+
+        button1 = Button(topframe, text="Search", fg="black")
+        button2 = Button(topframe, text="Insert", fg="black")
+        button3 = Button(topframe, text="Delete", fg="black")
+
+
+        button1.pack(fill=X)
+        button2.pack(fill=X)
+        button3.pack(fill=X)
+
+
+
+
 
 
 class TextEditor:
