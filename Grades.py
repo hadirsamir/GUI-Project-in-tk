@@ -62,8 +62,26 @@ class Grades:
         #print(results,check)
 
     def insert_query(self,event):
-        newWindow = Toplevel(self.currentTopLevel)
-        # check2=self.input1.get()
+     self.newWindow = Toplevel(self.currentTopLevel)
+     self.newWindow.wm_title("Insert")
+     self.currentFrame = Frame(self.newWindow)
+     self.currentFrame.pack()
+     label1= Label(self.currentFrame, text = "Student's name").pack(fill=X)
+     self.firstentry=addEntryTextToFrame(currentFrame=self.currentFrame,addFocus=True)
+     self.addname=self.firstentry.get()
+     #label2= Label(self.currentFrame, text = "Student's id").pack(fill=X)
+     #self.idEntry=addEntryTextToFrame(self.currentFrame,addFocus=True)
+    # self.addid=self.idEntry.get()
+     label3= Label(self.currentFrame, text="Student's age").pack(fill=X)
+     self.ageEntry=addEntryTextToFrame(self.currentFrame,addFocus=True)
+     #self.addage=self.ageEntry.get()
+     self.insertbutton=addButtonToFrame(self.currentFrame,"insert",X,self.confirm)
+
+    def confirm(self,event):
+
+     rows.execute("INSERT INTO students (name, age)  VALUES (%s, %s)",(self.firstentry.get(),str(self.ageEntry.get()),))
+     mariadb_connection.commit()
+ # check2=self.input1.get()
         # StrSql2=rows.execute("INSERT INTO students (name)VALUES (%s)",(check2,))
         # mariadb_connection .commit()
 
