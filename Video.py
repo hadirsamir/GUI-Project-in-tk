@@ -85,7 +85,7 @@ class Display:
         self.drawButtons(self.topframe, self.sub_Name,self.openvideoWindow)
 
     def subjectQuery(self):
-        rows.execute("SELECT id,NAME from subjects ")
+        rows.execute("SELECT _id,NAME from subjects ")
         for index, subjectTuple in enumerate(rows):
             self.sub_Name[subjectTuple[1]]= subjectTuple[0]
 

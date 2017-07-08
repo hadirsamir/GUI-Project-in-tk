@@ -3,7 +3,7 @@ import mysql.connector as mariadb
 
 
 u="root"
-theDatabase="playground"
+theDatabase="school"
 
 
 mariadb_connection = mariadb.connect(user= u, password='', database= theDatabase)

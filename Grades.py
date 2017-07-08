@@ -34,7 +34,7 @@ class Grades:
 
     def search_query(self,event):
         check=self.searchNameBox.get()
-        rows.execute("SELECT * FROM students WHERE name LIKE %s",(check.lower(),))
+        rows.execute("SELECT _id, name, age FROM students WHERE name LIKE %s",(check.lower(),))
         student =rows.fetchone()
         if student is None:
            messagebox.showinfo("Warning","Your search query doesn't match any student!");
@@ -42,19 +42,19 @@ class Grades:
             if(not(self.studentIsDisplayed)):
                 # messagebox.showinfo("Message","%s is found"%student[2])
                 Label(self.currentFrame, text="Name =").pack(fill=X)
-                self.nameEntry = addEntryTextToFrame(self.currentFrame, placeHolderText=student[0])
-                self.idLabel = Label(self.currentFrame, text="ID = " + str(student[1]))
+                self.nameEntry = addEntryTextToFrame(self.currentFrame, placeHolderText=student[1])
+                self.idLabel = Label(self.currentFrame, text="ID = " + str(student[0]))
                 self.idLabel.pack(fill=X)
-                self.idEntry = student[1];
+                self.idEntry = student[0];
                 Label(self.currentFrame, text="Age = ").pack(fill=X)
                 self.ageEntry = addEntryTextToFrame(self.currentFrame, placeHolderText=student[2])
                 addButtonToFrame(self.currentFrame, "Update", X, self.update_query)
                 self.studentIsDisplayed = True
             else:
                 self.nameEntry.delete(0, len(self.nameEntry.get()))
-                self.nameEntry.insert(0, student[0])
-                self.idLabel.configure(text="ID = " + str(student[1]))
-                self.idEntry = student[1];
+                self.nameEntry.insert(0, student[1])
+                self.idLabel.configure(text="ID = " + str(student[0]))
+                self.idEntry = student[0];
                 self.ageEntry.delete(0, len(self.ageEntry.get()))
                 self.ageEntry.insert(0, student[2])
 
@@ -93,6 +93,6 @@ class Grades:
     def update_query(self, event):
         # Check Name is valid TODO
         # Check Valid age ToDo
-        rows.execute("UPDATE students SET name = %s , age = %s WHERE id = %s", ( self.nameEntry.get(), str(self.ageEntry.get()), str(self.idEntry)))
+        rows.execute("UPDATE students SET name = %s , age = %s WHERE _id = %s", ( self.nameEntry.get(), str(self.ageEntry.get()), str(self.idEntry)))
         mariadb_connection.commit();
         return 1
