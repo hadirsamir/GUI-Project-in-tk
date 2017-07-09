@@ -86,7 +86,7 @@ class Grades:
         # mariadb_connection .commit()
 
     def delete_query(self,event):
-        check3=self.input1.get()
+        check3=self.searchNameBox.get()
         StrSql3=rows.execute("DELETE FROM students WHERE name=%s",(check3,))
         mariadb_connection.commit()
 
