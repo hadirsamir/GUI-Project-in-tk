@@ -19,7 +19,7 @@ tableNames = {
 
 def addButtonToFrame(currentFrame, buttonName, place, bindedFunction = None, imagePath = None, imgLen = None, imgWid = None, butwidth = 0, butHeight = 0):
     # Create Button.
-    b = Button(currentFrame, text= buttonName, fg="black",height = butHeight, width = butwidth, borderwidth=5);
+    b = Button(currentFrame, text= buttonName, fg="black",height = butHeight, width = butwidth, borderwidth=3);
     # Add Image if it's send.
     if(imagePath and imgLen and imgWid):
         # Read Image.

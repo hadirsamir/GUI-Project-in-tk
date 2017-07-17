@@ -24,7 +24,7 @@ class Mainwindow():
         w, h = parentTopLevel.winfo_screenwidth(), parentTopLevel.winfo_screenheight()
 
         # Add main Frame.
-        currentFrame = Frame(self.currentTopLevel, bg = "#FFFFFF", width = w, height = h)
+        currentFrame = Frame(self.currentTopLevel, width = w, height = h)
 
         currentFrame.pack()
 
