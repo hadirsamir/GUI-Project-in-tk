@@ -6,5 +6,5 @@ u="root"
 theDatabase="school"
 
 
-mariadb_connection = mariadb.connect(user= u, password='', database= theDatabase)
+mariadb_connection = mariadb.connect(user= u, password='root', database= theDatabase)
 rows = mariadb_connection.cursor()   # database connection

@@ -1,6 +1,6 @@
 from tkinter import *
 
-gif_dir="/home/hadir/GUIProject/gifs/" # path of GIFs directory
+gif_dir="/home/pi/GUI-Project-in-tk/gifs/" # path of GIFs directory
 
 imagePaths = {
     "editorImg" : (gif_dir + "pencil.gif"),
