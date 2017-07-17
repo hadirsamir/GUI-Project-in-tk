@@ -31,21 +31,21 @@ class Mainwindow():
         # Add menu buttons.
         padX = 80
         padY = 35
-        textEditorButton = addButtonToFrame(currentFrame, "My Board", -1, self.geteditor, imagePaths["editorImg"], 4, 4, 160, 70)
+        textEditorButton = addButtonToFrame(currentFrame, "My Board     ", -1, self.geteditor, imagePaths["editorImg"], 4, 4, 160, 70)
         textEditorButton.grid(row = 0, column = 0, pady = padY, padx = padX)
         videoListButton = addButtonToFrame(currentFrame, "My Video List", -1, self.getVideo, imagePaths["videoList"], 4, 4, 160, 70)
         videoListButton.grid(row = 1, column = 0, pady = padY, padx = padX)
-        videoSearchButton = addButtonToFrame(currentFrame, "Search Video", -1, self.SearchOne, imagePaths["videoSearchImg"], 4, 4, 160, 70)
+        videoSearchButton = addButtonToFrame(currentFrame, "Search Video ", -1, self.SearchOne, imagePaths["videoSearchImg"], 4, 4, 160, 70)
         videoSearchButton.grid(row = 2, column = 0, pady = padY, padx = padX)
-        refernceButton = addButtonToFrame(currentFrame, "My References ", -1, self.openpdf, imagePaths["referenceImg"], 14, 14, 160, 70)
+        refernceButton = addButtonToFrame(currentFrame, "My References", -1, self.openpdf, imagePaths["referenceImg"], 14, 14, 160, 70)
         refernceButton.grid(row = 3, column = 0, pady = padY, padx = padX)
-        browserButton = addButtonToFrame(currentFrame, "My Browser", -1, self.browse, imagePaths["browserImg"], 7, 7, 160, 70)
+        browserButton = addButtonToFrame(currentFrame, "My Browser   ", -1, self.browse, imagePaths["browserImg"], 7, 7, 160, 70)
         browserButton.grid(row = 0, column = 50, pady = padY, padx = padX)
-        gradesButton = addButtonToFrame(currentFrame, "Grades", -1, self.getgrade, imagePaths["gradesImg"], 7, 7, 160, 70)
+        gradesButton = addButtonToFrame(currentFrame, "Grades       ", -1, self.getgrade, imagePaths["gradesImg"], 7, 7, 160, 70)
         gradesButton.grid(row = 1, column = 50, pady = padY, padx = padX)
-        fileSendButton = addButtonToFrame(currentFrame, "Send Files", -1, self.sendfile, imagePaths["sendFilesImg"], 4, 4, 160, 70)
+        fileSendButton = addButtonToFrame(currentFrame, "Send Files   ", -1, self.sendfile, imagePaths["sendFilesImg"], 4, 4, 160, 70)
         fileSendButton.grid(row = 2, column = 50, pady = padY, padx = padX)
-        drawingButton = addButtonToFrame(currentFrame, "Draw", -1, self.getframework, imagePaths["drawingImg"], 4, 4, 160, 70)
+        drawingButton = addButtonToFrame(currentFrame, "Draw         ", -1, self.getframework, imagePaths["drawingImg"], 4, 4, 160, 70)
         drawingButton.grid(row = 3, column = 50, pady = padY, padx = padX)
 
     def sendfile(self,event):
