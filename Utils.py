@@ -1,6 +1,6 @@
 from tkinter import *
 
-gif_dir="/home/hadir/PycharmProjects/TextEditor/gifs/" # path of GIFs directory
+gif_dir="/home/hadir/GUIProject/gifs/" # path of GIFs directory
 
 imagePaths = {
     "editorImg" : (gif_dir + "pencil.gif"),
@@ -17,9 +17,9 @@ tableNames = {
     "studentsTable" : "students"
 }
 
-def addButtonToFrame(currentFrame, buttonName, place, bindedFunction = None, imagePath = None, imgLen = None, imgWid = None):
+def addButtonToFrame(currentFrame, buttonName, place, bindedFunction = None, imagePath = None, imgLen = None, imgWid = None, butwidth = 0, butHeight = 0):
     # Create Button.
-    b = Button(currentFrame, text= buttonName, fg="black")
+    b = Button(currentFrame, text= buttonName, fg="black",height = butHeight, width = butwidth, borderwidth=5);
     # Add Image if it's send.
     if(imagePath and imgLen and imgWid):
         # Read Image.
@@ -29,7 +29,8 @@ def addButtonToFrame(currentFrame, buttonName, place, bindedFunction = None, ima
         b.config(image= img, compound=RIGHT)
         b.image = img
     # Show Button.
-    b.pack(fill = place)
+    if(place != -1):
+        b.pack(fill=place)
     # Bind Button if found.
     if(bindedFunction):
         b.bind("<Button-1>", bindedFunction)

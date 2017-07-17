@@ -21,19 +21,32 @@ class Mainwindow():
         self.currentTopLevel = parentTopLevel
         self.currentTopLevel.wm_title("My Widgets")
 
+        w, h = parentTopLevel.winfo_screenwidth(), parentTopLevel.winfo_screenheight()
+
         # Add main Frame.
-        currentFrame = Frame(self.currentTopLevel)
+        currentFrame = Frame(self.currentTopLevel, bg = "#FFFFFF", width = w, height = h)
+
         currentFrame.pack()
 
         # Add menu buttons.
-        textEditorButton = addButtonToFrame(currentFrame, "My Board", X, self.geteditor, imagePaths["editorImg"], 17, 17)
-        videoListButton = addButtonToFrame(currentFrame, "My Video List", X, self.getVideo, imagePaths["videoList"], 6, 6)
-        videoSearchButton = addButtonToFrame(currentFrame, "Search Video", X, self.SearchOne, imagePaths["videoSearchImg"], 6, 6)
-        refernceButton = addButtonToFrame(currentFrame, "My References ", X, self.openpdf, imagePaths["referenceImg"], 6, 6)
-        browserButton = addButtonToFrame(currentFrame, "My Browser", X, self.browse, imagePaths["browserImg"], 5, 5)
-        gradesButton = addButtonToFrame(currentFrame, "Grades", X, self.getgrade, imagePaths["gradesImg"], 6, 6)
-        fileSendButton = addButtonToFrame(currentFrame, "Send Files", X, self.sendfile, imagePaths["sendFilesImg"], 6, 6)
-        drawingButton = addButtonToFrame(currentFrame, "Draw", X, self.getframework, imagePaths["drawingImg"], 6, 6)
+        padX = 80
+        padY = 35
+        textEditorButton = addButtonToFrame(currentFrame, "My Board", -1, self.geteditor, imagePaths["editorImg"], 4, 4, 160, 70)
+        textEditorButton.grid(row = 0, column = 0, pady = padY, padx = padX)
+        videoListButton = addButtonToFrame(currentFrame, "My Video List", -1, self.getVideo, imagePaths["videoList"], 4, 4, 160, 70)
+        videoListButton.grid(row = 1, column = 0, pady = padY, padx = padX)
+        videoSearchButton = addButtonToFrame(currentFrame, "Search Video", -1, self.SearchOne, imagePaths["videoSearchImg"], 4, 4, 160, 70)
+        videoSearchButton.grid(row = 2, column = 0, pady = padY, padx = padX)
+        refernceButton = addButtonToFrame(currentFrame, "My References ", -1, self.openpdf, imagePaths["referenceImg"], 14, 14, 160, 70)
+        refernceButton.grid(row = 3, column = 0, pady = padY, padx = padX)
+        browserButton = addButtonToFrame(currentFrame, "My Browser", -1, self.browse, imagePaths["browserImg"], 7, 7, 160, 70)
+        browserButton.grid(row = 0, column = 50, pady = padY, padx = padX)
+        gradesButton = addButtonToFrame(currentFrame, "Grades", -1, self.getgrade, imagePaths["gradesImg"], 7, 7, 160, 70)
+        gradesButton.grid(row = 1, column = 50, pady = padY, padx = padX)
+        fileSendButton = addButtonToFrame(currentFrame, "Send Files", -1, self.sendfile, imagePaths["sendFilesImg"], 4, 4, 160, 70)
+        fileSendButton.grid(row = 2, column = 50, pady = padY, padx = padX)
+        drawingButton = addButtonToFrame(currentFrame, "Draw", -1, self.getframework, imagePaths["drawingImg"], 4, 4, 160, 70)
+        drawingButton.grid(row = 3, column = 50, pady = padY, padx = padX)
 
     def sendfile(self,event):
         os.system("echo")           #takes terminal command

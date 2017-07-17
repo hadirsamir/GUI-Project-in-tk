@@ -2,7 +2,8 @@ from tkinter import *
 from tkinter import filedialog
 import tkinter
 import os
-import gi
+#import gi
+import webbrowser as videoPlayer # Used to open the videos.
 
 # Import DBManager
 from DBManager import *
@@ -11,43 +12,44 @@ if sys.version_info[0] < 3:
     import Tkinter as tkinter
 else:
     import tkinter
-import gi
-gi.require_version('Gst', '1.0')
-from gi.repository import Gst, GObject
+
+# gi.require_version('Gst', '1.0')
+# from gi.repository import Gst, GObject
 
 # Needed for set_window_handle():
-gi.require_version('GstVideo', '1.0')
-from gi.repository import GstVideo
+# gi.require_version('GstVideo', '1.0')
+# from gi.repository import GstVideo
 
 
 class VideoPlayer:
     def __init__(self, videoPath, parent = None):
-        relative_height = 1
-
-        Gst.init()
-        GObject.threads_init()
-
-        display_frame = Frame(parent,bg='')
-        relative_y = 0 * relative_height
-        display_frame.place(relx=0, rely=relative_y,
-                            anchor=tkinter.NW, relwidth=1, relheight=relative_height)
-        frame_id = display_frame.winfo_id()
-        player = Gst.ElementFactory.make('playbin', None)
-        fullname = os.path.abspath(videoPath)
-        player.set_property('uri', 'file://%s' % fullname)
-
-        player.set_state(Gst.State.PLAYING)  # function that plays a video
-
-        bus = player.get_bus()
-        bus.enable_sync_message_emission()
-        bus.connect('sync-message::element', self.set_frame_handle, frame_id)
-
-    def set_frame_handle(bus, message, frame_id):
-        if not message.get_structure() is None:
-            if message.get_structure().get_name() == 'prepare-window-handle':
-                display_frame = message.src
-                display_frame.set_property('force-aspect-ratio', True)
-                display_frame.set_window_handle(frame_id)
+        videoPlayer.open_new(videoPath)  # open pdf file
+    #     relative_height = 1
+    #
+    #     Gst.init()
+    #     GObject.threads_init()
+    #
+    #     display_frame = Frame(parent,bg='')
+    #     relative_y = 0 * relative_height
+    #     display_frame.place(relx=0, rely=relative_y,
+    #                         anchor=tkinter.NW, relwidth=1, relheight=relative_height)
+    #     frame_id = display_frame.winfo_id()
+    #     player = Gst.ElementFactory.make('playbin', None)
+    #     fullname = os.path.abspath(videoPath)
+    #     player.set_property('uri', 'file://%s' % fullname)
+    #
+    #     player.set_state(Gst.State.PLAYING)  # function that plays a video
+    #
+    #     bus = player.get_bus()
+    #     bus.enable_sync_message_emission()
+    #     bus.connect('sync-message::element', self.set_frame_handle)
+    #
+    # def set_frame_handle(self, bus, message):
+    #     if not message.get_structure() is None:
+    #         if message.get_structure().get_name() == 'prepare-window-handle':
+    #             display_frame = message.src
+    #             display_frame.set_property('force-aspect-ratio', True)
+    #             display_frame.set_window_handle(frame_id)
 
 class openVideosearch:
     def __init__(self,master):
